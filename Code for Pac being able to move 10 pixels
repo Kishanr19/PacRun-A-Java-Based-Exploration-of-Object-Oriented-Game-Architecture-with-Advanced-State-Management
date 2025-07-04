@@ -1,0 +1,85 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+// Main class for the Pac-Run game, extending JPanel to handle the game's graphical interface
+public class PacRun extends JPanel implements KeyListener {
+
+    // Starting coordinates of the Pac character (our Pac in Pac-Run)
+    private int pacX = 100;  // X position of Pac
+    private int pacY = 100;  // Y position of Pac
+    // Size of the Pac character in pixels
+    private final int pacSize = 40;
+
+    // Constructor to set up the game and enable key listening
+    public PacRun() {
+        setFocusable(true);  // Ensures this panel can receive key inputs
+        addKeyListener(this);  // Registers the current class as the key listener for the game
+    }
+
+    // This method is responsible for drawing the game screen and the Pac character
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        // Fill the background with black to represent the game area
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 0, getWidth(), getHeight());
+
+        // Draw the Pac character in yellow (Pac-Run character)
+        g.setColor(Color.YELLOW);
+        g.fillArc(pacX, pacY, pacSize, pacSize, 45, 270);  // Simple Pac-like arc representing the character
+    }
+
+    // Handle the key press events to control Pac's movement
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int keyCode = e.getKeyCode();  // Get the key code for the pressed key
+
+        // Move the Pac-Run character based on the arrow key pressed
+        switch (keyCode) {
+            case KeyEvent.VK_LEFT:
+                pacX -= 10;  // Move left by 10 pixels
+                break;
+            case KeyEvent.VK_RIGHT:
+                pacX += 10;  // Move right by 10 pixels
+                break;
+            case KeyEvent.VK_UP:
+                pacY -= 10;  // Move up by 10 pixels
+                break;
+            case KeyEvent.VK_DOWN:
+                pacY += 10;  // Move down by 10 pixels
+                break;
+        }
+
+        // Repaint the screen to update the new position of the Pac-Run character
+        repaint();
+    }
+
+    // These methods are required by KeyListener, but are unused for this simple version
+    @Override
+    public void keyReleased(KeyEvent e) {}
+
+    @Override
+    public void keyTyped(KeyEvent e) {}
+
+    // Main method to set up the game window and run the Pac-Run game
+    public static void main(String[] args) {
+        // Create a new window (JFrame) titled "Pac-Run"
+        JFrame frame = new JFrame("Pac-Run");
+        // Create an instance of the Pac-Run game
+        PacRun game = new PacRun();
+
+        // Set the window size (width x height)
+        frame.setSize(400, 400);
+        // Ensure the program exits when the window is closed
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // Add the game panel to the window
+        frame.add(game);
+
+        // Make the window visible
+        frame.setVisible(true);
+    }
+}
